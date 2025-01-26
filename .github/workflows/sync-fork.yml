@@ -2,7 +2,7 @@ name: Sync Fork
 
 on:
   schedule:
-    - cron: '10 22 * * *' 
+    - cron: '0 0 * * *' 
   workflow_dispatch:
 
 jobs:
@@ -12,8 +12,6 @@ jobs:
     steps:
     - name: Checkout fork repository
       uses: actions/checkout@v3
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Add upstream repository
       run: |
@@ -23,14 +21,18 @@ jobs:
 
     - name: Exclude config.json
       run: |
-        cp config.json ../config_backup.json # Salva una copia temporanea del file
-        git reset --hard upstream/main   # Allinea il fork con il repository principale
-        mv ../config_backup.json config.json # Ripristina il file escluso
+        cp config.json ../config_backup.json
+        git reset --hard upstream/main
+        mv ../config_backup.json config.json
+
+    - name: Update domains in config.json
+      run: |
+        python update_domains.py
 
     - name: Push changes to fork
       run: |
         git config user.name "github-actions[bot]"
         git config user.email "github-actions[bot]@users.noreply.github.com"
         git add .
-        git commit -m "Sync fork with upstream (exclude config.json)"
+        git commit -m "Sync fork"
         git push origin main --force
