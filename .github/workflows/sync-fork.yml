@@ -15,15 +15,20 @@ jobs:
 
     - name: Add upstream repository
       run: |
-        git remote add upstream https://github.com/pab0bytes/italian-channels-m3u8.git
+        git remote add upstream https://github.com/pab0bytes/italian-channels-m3u8
         git fetch upstream
         git checkout main
 
     - name: Exclude config.json
       run: |
-        cp config.json ../config_backup.json
+        cp config.json ../fork_config_backup.json
         git reset --hard upstream/main
-        mv ../config_backup.json config.json
+        cp config.json ../original_config_backup.json
+        mv ../fork_config_backup.json config.json
+
+    - name: Merge config.json
+      run: |
+        python merge_config.py
 
     - name: Update domains in config.json
       run: |
@@ -34,5 +39,5 @@ jobs:
         git config user.name "github-actions[bot]"
         git config user.email "github-actions[bot]@users.noreply.github.com"
         git add .
-        git commit -m "Sync fork"
+        git commit -m "Sync fork and update domains"
         git push origin main --force
