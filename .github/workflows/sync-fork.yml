@@ -21,10 +21,9 @@ jobs:
 
     - name: Exclude config.json
       run: |
-        cp config.json ../fork_config_backup.json
+        cp config.json fork_config_backup.json
         git reset --hard upstream/main
-        cp config.json ../original_config_backup.json
-        mv ../fork_config_backup.json config.json
+        cp config.json original_config_backup.json
 
     - name: Install dependencies
       run: |
@@ -34,6 +33,7 @@ jobs:
     - name: Merge config.json
       run: |
         python merge_config.py
+        mv fork_config_backup.json config.json
 
     - name: Update domains in config.json
       run: |
@@ -41,8 +41,8 @@ jobs:
 
     - name: Delete useless files
       run: |
-        rm ../fork_config_backup.json
-        rm ../original_config_backup.json
+        rm fork_config_backup.json
+        rm original_config_backup.json
 
     - name: Push changes to fork
       run: |
@@ -50,4 +50,4 @@ jobs:
         git config user.email "github-actions[bot]@users.noreply.github.com"
         git add .
         git commit -m "Sync fork and update domains"
-        git push origin main --force
+        git push origin main
