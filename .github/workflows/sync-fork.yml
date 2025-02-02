@@ -26,6 +26,11 @@ jobs:
         cp config.json ../original_config_backup.json
         mv ../fork_config_backup.json config.json
 
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install jsonmerge
+
     - name: Merge config.json
       run: |
         python merge_config.py
@@ -33,6 +38,11 @@ jobs:
     - name: Update domains in config.json
       run: |
         python update_domains.py
+
+    - name: Delete useless files
+      run: |
+        rm ../fork_config_backup.json
+        rm ../original_config_backup.json
 
     - name: Push changes to fork
       run: |
