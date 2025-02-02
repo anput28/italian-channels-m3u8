@@ -39,11 +39,6 @@ jobs:
       run: |
         python update_domains.py
 
-    - name: Delete useless files
-      run: |
-        rm fork_config_backup.json
-        rm original_config_backup.json
-
     - name: Push changes to fork
       run: |
         git config user.name "github-actions[bot]"
