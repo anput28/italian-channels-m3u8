@@ -8,6 +8,10 @@
                "VX_PROXY": "0",
                "enabled": "1"
            },
+            "Filmpertutti": {
+               "domain": "motorcycles",
+               "enabled": "1"
+           },
            "Tantifilm":{
                "domain": "bond",
                "TF_ForwardProxy": "0",
@@ -67,8 +71,7 @@
           },
           "DaddyLiveHD":{
               "domain":"to",
-              "enabled":"1",
-              "test": "test"
+              "enabled":"1"
           }
    },
    "General":{
